@@ -25,7 +25,7 @@ echo ""
 
 # Test manual backup
 echo "Testing manual backup..."
-docker compose -f docker-compose.yml exec backend \
+docker compose -f docker-compose.yaml exec backend \
   bench --site "$SITE_NAME" backup --with-files
 
 echo ""
@@ -49,13 +49,13 @@ BACKUP_RETENTION_DAYS=30
 echo "[$(date)] Starting backup for $SITE_NAME..."
 
 # Run backup
-docker compose -f /home/frappe/frappe_docker/docker-compose.yml exec -T backend \
+docker compose -f /home/frappe/frappe_docker/docker-compose.yaml exec -T backend \
   bench --site "$SITE_NAME" backup --with-files
 
 echo "[$(date)] Backup completed successfully"
 
 # Clean up old backups (older than 30 days)
-docker compose -f /home/frappe/frappe_docker/docker-compose.yml exec -T backend \
+docker compose -f /home/frappe/frappe_docker/docker-compose.yaml exec -T backend \
   find /home/frappe/frappe-bench/sites/"$SITE_NAME"/private/backups/ -type f -mtime +$BACKUP_RETENTION_DAYS -delete
 
 echo "[$(date)] Old backups cleaned up"
@@ -77,14 +77,14 @@ echo ""
 echo "To edit crontab, run: crontab -e"
 echo ""
 echo "Manual backup command:"
-echo "  docker compose -f docker-compose.yml exec backend bench --site $SITE_NAME backup --with-files"
+echo "  docker compose -f docker-compose.yaml exec backend bench --site $SITE_NAME backup --with-files"
 echo ""
 echo "List all backups:"
-echo "  docker compose -f docker-compose.yml exec backend bench --site $SITE_NAME list-backups"
+echo "  docker compose -f docker-compose.yaml exec backend bench --site $SITE_NAME list-backups"
 echo ""
 echo "Restore from backup:"
-echo "  docker compose -f docker-compose.yml exec backend bench --site $SITE_NAME restore --with-public-files --with-private-files [backup-file]"
+echo "  docker compose -f docker-compose.yaml exec backend bench --site $SITE_NAME restore --with-public-files --with-private-files [backup-file]"
 echo ""
 echo "Export backups from Docker volume:"
-echo "  docker compose -f docker-compose.yml cp backend:/home/frappe/frappe-bench/sites/$SITE_NAME/private/backups ./backups/"
+echo "  docker compose -f docker-compose.yaml cp backend:/home/frappe/frappe-bench/sites/$SITE_NAME/private/backups ./backups/"
 echo ""

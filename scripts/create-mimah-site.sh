@@ -23,10 +23,10 @@ echo ""
 
 # Check if containers are running
 echo "Checking if containers are running..."
-if ! docker compose -f docker-compose.yml ps | grep -q "backend"; then
+if ! docker compose -f docker-compose.yaml ps | grep -q "backend"; then
     echo "ERROR: Backend container is not running!"
     echo "Please start the containers first with:"
-    echo "  docker compose -f docker-compose.yml up -d"
+    echo "  docker compose -f docker-compose.yaml up -d"
     exit 1
 fi
 
@@ -39,10 +39,10 @@ sleep 10
 
 # Check if site already exists
 echo "Checking if site already exists..."
-if docker compose -f docker-compose.yml exec -T backend bench list-sites | grep -q "$SITE_NAME"; then
+if docker compose -f docker-compose.yaml exec -T backend bench list-sites | grep -q "$SITE_NAME"; then
     echo "WARNING: Site $SITE_NAME already exists!"
     echo "If you want to recreate it, first drop it with:"
-    echo "  docker compose -f docker-compose.yml exec backend bench drop-site $SITE_NAME --force"
+    echo "  docker compose -f docker-compose.yaml exec backend bench drop-site $SITE_NAME --force"
     exit 1
 fi
 
@@ -54,7 +54,7 @@ echo "Creating site: $SITE_NAME"
 echo "This may take 5-10 minutes..."
 echo ""
 
-docker compose -f docker-compose.yml exec backend \
+docker compose -f docker-compose.yaml exec backend \
   bench new-site "$SITE_NAME" \
   --mariadb-root-password "$DB_ROOT_PASSWORD" \
   --admin-password "$ADMIN_PASSWORD" \
@@ -66,7 +66,7 @@ echo ""
 
 # Install ERPNext app
 echo "Installing ERPNext application..."
-docker compose -f docker-compose.yml exec backend \
+docker compose -f docker-compose.yaml exec backend \
   bench --site "$SITE_NAME" install-app erpnext
 
 echo ""
@@ -75,7 +75,7 @@ echo ""
 
 # Set up company
 echo "Setting up company: $COMPANY_NAME"
-docker compose -f docker-compose.yml exec backend \
+docker compose -f docker-compose.yaml exec backend \
   bench --site "$SITE_NAME" execute "frappe.db.set_single_value('System Settings', 'country', 'United Kingdom')"
 
 echo ""
@@ -84,7 +84,7 @@ echo ""
 
 # Enable scheduler
 echo "Enabling scheduler..."
-docker compose -f docker-compose.yml exec backend \
+docker compose -f docker-compose.yaml exec backend \
   bench --site "$SITE_NAME" enable-scheduler
 
 echo ""
@@ -93,7 +93,7 @@ echo ""
 
 # Set site as default
 echo "Setting site as default..."
-docker compose -f docker-compose.yml exec backend \
+docker compose -f docker-compose.yaml exec backend \
   bench use "$SITE_NAME"
 
 echo ""

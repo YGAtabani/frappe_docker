@@ -13,7 +13,7 @@ This repository is configured for deploying MIMAH's ERPNext system to Coolify wi
 
 | File | Description |
 |------|-------------|
-| `docker-compose.yml` | Production docker compose configuration |
+| `docker-compose.yaml` | Production docker compose configuration |
 | `.env.production` | Environment variables (NOT in git - contains passwords) |
 | `.env.production.example` | Template for environment variables |
 | `DEPLOYMENT.md` | Complete deployment guide for Coolify |
@@ -30,7 +30,7 @@ See **[DEPLOYMENT.md](DEPLOYMENT.md)** for complete step-by-step instructions.
 1. **In Coolify Dashboard:**
    - Create new Docker Compose service
    - Point to this repository
-   - Use `docker-compose.yml`
+   - Use `docker-compose.yaml`
    - Set domain: `mimah.sohob.co.uk`
    - Configure environment variables from `.env.production`
 
@@ -79,7 +79,7 @@ Automated daily backups configured. See `scripts/setup-backups.sh` for details.
 
 **Manual backup:**
 ```bash
-docker compose -f docker-compose.yml exec backend \
+docker compose -f docker-compose.yaml exec backend \
   bench --site mimah.sohob.co.uk backup --with-files
 ```
 
@@ -87,22 +87,22 @@ docker compose -f docker-compose.yml exec backend \
 
 ### View Logs
 ```bash
-docker compose -f docker-compose.yml logs -f
+docker compose -f docker-compose.yaml logs -f
 ```
 
 ### Restart Services
 ```bash
-docker compose -f docker-compose.yml restart
+docker compose -f docker-compose.yaml restart
 ```
 
 ### Access Backend Shell
 ```bash
-docker compose -f docker-compose.yml exec backend bash
+docker compose -f docker-compose.yaml exec backend bash
 ```
 
 ### Clear Cache
 ```bash
-docker compose -f docker-compose.yml exec backend \
+docker compose -f docker-compose.yaml exec backend \
   bench --site mimah.sohob.co.uk clear-cache
 ```
 
@@ -134,9 +134,9 @@ docker compose -f docker-compose.yml exec backend \
 To update ERPNext to a newer version:
 
 1. Update version in `.env.production`
-2. Pull new images: `docker compose -f docker-compose.yml pull`
-3. Restart services: `docker compose -f docker-compose.yml up -d`
-4. Run migrations: `docker compose -f docker-compose.yml exec backend bench --site mimah.sohob.co.uk migrate`
+2. Pull new images: `docker compose -f docker-compose.yaml pull`
+3. Restart services: `docker compose -f docker-compose.yaml up -d`
+4. Run migrations: `docker compose -f docker-compose.yaml exec backend bench --site mimah.sohob.co.uk migrate`
 
 ## ⚠️ Important Notes
 

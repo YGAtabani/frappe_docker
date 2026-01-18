@@ -26,7 +26,7 @@ Before starting the deployment, ensure you have:
 2. **Git Repository**: Your forked repository URL
    - Example: `https://github.com/YGAtabani/frappe_docker.git`
 3. **Branch**: `claude/setup-frappe-coolify-ENAHl`
-4. **Docker Compose File Path**: `docker-compose.yml` (default, auto-detected)
+4. **Docker Compose File Path**: `docker-compose.yaml` (default, auto-detected)
 
 ### Step 3: Configure Environment Variables
 
@@ -65,7 +65,7 @@ RESTART_POLICY=unless-stopped
 
 ### Step 5: Configure Persistent Storage
 
-Coolify should automatically detect the volumes from docker-compose.yml:
+Coolify should automatically detect the volumes from docker-compose.yaml:
 - `sites` - ERPNext site data
 - `mariadb-data` - Database
 - `redis-cache-data` - Redis cache
@@ -106,7 +106,7 @@ cd /path/to/coolify/mimah-erp
 
 **Option C: Manual Site Creation**
 ```bash
-docker compose -f docker-compose.yml exec backend \
+docker compose -f docker-compose.yaml exec backend \
   bench new-site mimah.sohob.co.uk \
   --mariadb-root-password "MmH\$9xR2!vL4pQ7wK@Db2026" \
   --admin-password "ErP#Mm8!Hx5aQ9wN@Adm2026" \
@@ -203,7 +203,7 @@ This will:
 
 To create a manual backup:
 ```bash
-docker compose -f docker-compose.yml exec backend \
+docker compose -f docker-compose.yaml exec backend \
   bench --site mimah.sohob.co.uk backup --with-files
 ```
 
@@ -211,7 +211,7 @@ docker compose -f docker-compose.yml exec backend \
 
 To download backups to your local machine:
 ```bash
-docker compose -f docker-compose.yml cp \
+docker compose -f docker-compose.yaml cp \
   backend:/home/frappe/frappe-bench/sites/mimah.sohob.co.uk/private/backups \
   ./local-backups/
 ```
@@ -220,11 +220,11 @@ docker compose -f docker-compose.yml cp \
 
 ```bash
 # 1. List available backups
-docker compose -f docker-compose.yml exec backend \
+docker compose -f docker-compose.yaml exec backend \
   bench --site mimah.sohob.co.uk list-backups
 
 # 2. Restore from specific backup
-docker compose -f docker-compose.yml exec backend \
+docker compose -f docker-compose.yaml exec backend \
   bench --site mimah.sohob.co.uk restore \
   --with-public-files \
   --with-private-files \
@@ -237,24 +237,24 @@ docker compose -f docker-compose.yml exec backend \
 
 **All services:**
 ```bash
-docker compose -f docker-compose.yml logs -f
+docker compose -f docker-compose.yaml logs -f
 ```
 
 **Specific service:**
 ```bash
-docker compose -f docker-compose.yml logs -f backend
+docker compose -f docker-compose.yaml logs -f backend
 ```
 
 ### Restart Services
 
 **All services:**
 ```bash
-docker compose -f docker-compose.yml restart
+docker compose -f docker-compose.yaml restart
 ```
 
 **Specific service:**
 ```bash
-docker compose -f docker-compose.yml restart backend
+docker compose -f docker-compose.yaml restart backend
 ```
 
 ### Update ERPNext
@@ -269,13 +269,13 @@ CUSTOM_TAG=v15.XX.X
 
 2. Pull new images and restart:
 ```bash
-docker compose -f docker-compose.yml pull
-docker compose -f docker-compose.yml up -d
+docker compose -f docker-compose.yaml pull
+docker compose -f docker-compose.yaml up -d
 ```
 
 3. Run migrations:
 ```bash
-docker compose -f docker-compose.yml exec backend \
+docker compose -f docker-compose.yaml exec backend \
   bench --site mimah.sohob.co.uk migrate
 ```
 
@@ -292,31 +292,31 @@ docker stats
 
 1. Check all containers are running:
 ```bash
-docker compose -f docker-compose.yml ps
+docker compose -f docker-compose.yaml ps
 ```
 
 2. Check frontend logs:
 ```bash
-docker compose -f docker-compose.yml logs frontend
+docker compose -f docker-compose.yaml logs frontend
 ```
 
 3. Verify site exists:
 ```bash
-docker compose -f docker-compose.yml exec backend bench list-sites
+docker compose -f docker-compose.yaml exec backend bench list-sites
 ```
 
 ### Database Connection Issues
 
 1. Check MariaDB health:
 ```bash
-docker compose -f docker-compose.yml exec mariadb mysqladmin ping -p
+docker compose -f docker-compose.yaml exec mariadb mysqladmin ping -p
 ```
 
 2. Verify database password in `.env.production`
 
 3. Restart configurator:
 ```bash
-docker compose -f docker-compose.yml restart configurator
+docker compose -f docker-compose.yaml restart configurator
 ```
 
 ### Slow Performance
@@ -326,14 +326,14 @@ docker compose -f docker-compose.yml restart configurator
 docker stats
 ```
 
-2. Increase MariaDB buffer pool (in docker-compose.yml):
+2. Increase MariaDB buffer pool (in docker-compose.yaml):
 ```yaml
 --innodb-buffer-pool-size=2G  # Increase if you have RAM
 ```
 
 3. Scale worker containers:
 ```bash
-docker compose -f docker-compose.yml up -d --scale queue-short=2 --scale queue-long=2
+docker compose -f docker-compose.yaml up -d --scale queue-short=2 --scale queue-long=2
 ```
 
 ### Cannot Access via Domain
@@ -346,7 +346,7 @@ dig mimah.sohob.co.uk
 2. Check Coolify proxy configuration
 3. Verify SSL certificate was issued:
 ```bash
-docker compose -f docker-compose.yml logs frontend | grep -i ssl
+docker compose -f docker-compose.yaml logs frontend | grep -i ssl
 ```
 
 ## 📚 Useful Commands
@@ -355,7 +355,7 @@ docker compose -f docker-compose.yml logs frontend | grep -i ssl
 
 ```bash
 # Enter backend container
-docker compose -f docker-compose.yml exec backend bash
+docker compose -f docker-compose.yaml exec backend bash
 
 # List all sites
 bench list-sites
