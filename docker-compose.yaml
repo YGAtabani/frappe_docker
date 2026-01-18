@@ -115,6 +115,8 @@ services:
     depends_on:
       - backend
       - websocket
+    expose:
+      - "8080"
 
   # WebSocket Service - Real-time communication
   websocket:
