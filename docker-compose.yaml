@@ -115,8 +115,6 @@ services:
     depends_on:
       - backend
       - websocket
-    ports:
-      - "${HTTP_PUBLISH_PORT:-8080}:8080"
 
   # WebSocket Service - Real-time communication
   websocket:
